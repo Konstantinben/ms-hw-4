@@ -1,0 +1,198 @@
+PS C:\WINDOWS\system32> helm search repo prometheus-community
+NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
+prometheus-community/alertmanager                       1.5.0           v0.25.0         The Alertmanager handles alerts sent by client ...
+prometheus-community/alertmanager-snmp-notifier         0.1.2           v1.4.0          The SNMP Notifier handles alerts coming from Pr...
+prometheus-community/jiralert                           1.6.0           v1.3.0          A Helm chart for Kubernetes to install jiralert
+prometheus-community/kube-prometheus-stack              48.4.0          v0.66.0         kube-prometheus-stack collects Kubernetes manif...
+prometheus-community/kube-state-metrics                 5.11.0          2.9.2           Install kube-state-metrics to generate and expo...
+prometheus-community/prom-label-proxy                   0.5.0           v0.6.0          A proxy that enforces a given label in a given ...
+prometheus-community/prometheus                         23.4.0          v2.46.0         Prometheus is a monitoring system and time seri...
+prometheus-community/prometheus-adapter                 4.4.1           v0.11.0         A Helm chart for k8s prometheus adapter
+prometheus-community/prometheus-blackbox-exporter       8.3.0           v0.24.0         Prometheus Blackbox Exporter
+prometheus-community/prometheus-cloudwatch-expo...      0.25.1          0.15.4          A Helm chart for prometheus cloudwatch-exporter
+prometheus-community/prometheus-conntrack-stats...      0.5.7           v0.4.15         A Helm chart for conntrack-stats-exporter
+prometheus-community/prometheus-consul-exporter         1.0.0           0.4.0           A Helm chart for the Prometheus Consul Exporter
+prometheus-community/prometheus-couchdb-exporter        1.0.0           1.0             A Helm chart to export the metrics from couchdb...
+prometheus-community/prometheus-druid-exporter          1.1.0           v0.11.0         Druid exporter to monitor druid metrics with Pr...
+prometheus-community/prometheus-elasticsearch-e...      5.2.0           1.5.0           Elasticsearch stats exporter for Prometheus
+prometheus-community/prometheus-fastly-exporter         0.1.2           7.2.4           A Helm chart for the Prometheus Fastly Exporter
+prometheus-community/prometheus-json-exporter           0.7.1           v0.5.0          Install prometheus-json-exporter
+prometheus-community/prometheus-kafka-exporter          2.3.0           v1.6.0          A Helm chart to export the metrics from Kafka i...
+prometheus-community/prometheus-modbus-exporter         0.1.0           0.4.0           A Helm chart for prometheus-modbus-exporter
+prometheus-community/prometheus-mongodb-exporter        3.2.0           0.31.0          A Prometheus exporter for MongoDB metrics
+prometheus-community/prometheus-mysql-exporter          2.0.0           v0.15.0         A Helm chart for prometheus mysql exporter with...
+prometheus-community/prometheus-nats-exporter           2.13.0          0.12.0          A Helm chart for prometheus-nats-exporter
+prometheus-community/prometheus-nginx-exporter          0.1.1           0.11.0          A Helm chart for the Prometheus NGINX Exporter
+prometheus-community/prometheus-node-exporter           4.22.0          1.6.0           A Helm chart for prometheus node-exporter
+prometheus-community/prometheus-operator                9.3.2           0.38.1          DEPRECATED - This chart will be renamed. See ht...
+prometheus-community/prometheus-operator-admiss...      0.6.0           0.67.0          Prometheus Operator Admission Webhook
+prometheus-community/prometheus-operator-crds           5.1.0           0.67.0          A Helm chart that collects custom resource defi...
+prometheus-community/prometheus-pgbouncer-exporter      0.1.1           1.18.0          A Helm chart for prometheus pgbouncer-exporter
+prometheus-community/prometheus-pingdom-exporter        2.5.0           20190610-1      A Helm chart for Prometheus Pingdom Exporter
+prometheus-community/prometheus-pingmesh-exporter       0.3.0           v1.1.0          Prometheus Pingmesh Exporter
+prometheus-community/prometheus-postgres-exporter       5.0.0           v0.13.2         A Helm chart for prometheus postgres-exporter
+prometheus-community/prometheus-pushgateway             2.4.0           v1.6.0          A Helm chart for prometheus pushgateway
+prometheus-community/prometheus-rabbitmq-exporter       1.8.0           v0.29.0         Rabbitmq metrics exporter for prometheus
+prometheus-community/prometheus-redis-exporter          5.5.0           v1.44.0         Prometheus exporter for Redis metrics
+prometheus-community/prometheus-smartctl-exporter       0.5.0           v0.10.0         A Helm chart for Kubernetes
+prometheus-community/prometheus-snmp-exporter           1.8.0           v0.21.0         Prometheus SNMP Exporter
+prometheus-community/prometheus-stackdriver-exp...      4.3.0           0.13.0          Stackdriver exporter for Prometheus
+prometheus-community/prometheus-statsd-exporter         0.10.0          v0.24.0         A Helm chart for prometheus stats-exporter
+prometheus-community/prometheus-to-sd                   0.4.2           0.5.2           Scrape metrics stored in prometheus format and ...
+prometheus-community/prometheus-windows-exporter        0.1.1           0.22.0          A Helm chart for prometheus windows-exporter
+
+
+PS C:\WINDOWS\system32> helm install prometheus-community/prometheus
+Error: INSTALLATION FAILED: must either provide a name or specify --generate-name
+PS C:\WINDOWS\system32> helm install prometheus prometheus-community/prometheus
+NAME: prometheus
+LAST DEPLOYED: Sat Aug 26 00:39:29 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The Prometheus server can be accessed via port 80 on the following DNS name from within your cluster:
+prometheus-server.default.svc.cluster.local
+
+
+Get the Prometheus server URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9090
+
+
+The Prometheus alertmanager can be accessed via port 9093 on the following DNS name from within your cluster:
+prometheus-alertmanager.default.svc.cluster.local
+
+
+Get the Alertmanager URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=alertmanager,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9093
+#################################################################################
+######   WARNING: Pod Security Policy has been disabled by default since    #####
+######            it deprecated after k8s 1.25+. use                        #####
+######            (index .Values "prometheus-node-exporter" "rbac"          #####
+###### .          "pspEnabled") with (index .Values                         #####
+######            "prometheus-node-exporter" "rbac" "pspAnnotations")       #####
+######            in case you still need it.                                #####
+#################################################################################
+
+
+The Prometheus PushGateway can be accessed via port 9091 on the following DNS name from within your cluster:
+prometheus-prometheus-pushgateway.default.svc.cluster.local
+
+
+Get the PushGateway URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus-pushgateway,component=pushgateway" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9091
+
+For more information on running Prometheus, visit:
+https://prometheus.io/
+
+
+
+
+
+
+PS C:\WINDOWS\system32> kubectl get svc
+NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+kubernetes                            ClusterIP   10.96.0.1        <none>        443/TCP          11h
+my-release-postgresql                 ClusterIP   10.108.148.65    <none>        5432/TCP         11h
+my-release-postgresql-hl              ClusterIP   None             <none>        5432/TCP         11h
+prometheus-alertmanager               ClusterIP   10.100.242.181   <none>        9093/TCP         5m30s
+prometheus-alertmanager-headless      ClusterIP   None             <none>        9093/TCP         5m30s
+prometheus-kube-state-metrics         ClusterIP   10.110.130.180   <none>        8080/TCP         5m30s
+prometheus-prometheus-node-exporter   ClusterIP   10.102.10.93     <none>        9100/TCP         5m30s
+prometheus-prometheus-pushgateway     ClusterIP   10.107.52.160    <none>        9091/TCP         5m30s
+prometheus-server                     ClusterIP   10.107.152.231   <none>        80/TCP           5m30s
+service                               NodePort    10.96.255.202    <none>        8080:30288/TCP   11h
+PS C:\WINDOWS\system32>
+
+
+PS C:\WINDOWS\system32> kubectl --namespace default port-forward svc/prometheus-server 9090:80
+Forwarding from 127.0.0.1:9090 -> 9090
+
+
+
+To create the Helm values file:
+
+    Open a file named new_values.yaml in an editor and paste in the following values:
+
+    server:
+      remoteWrite:
+      - url: "<Your Metrics instance remote_write endpoint>"
+        basic_auth:
+          username: <your_grafana_cloud_prometheus_username>
+          password: <your_grafana_cloud_access_policy_token>
+
+    Set the remote_write URL and basic_auth username and password using your Grafana Cloud credentials. You can find your username by navigating to your stack in the Cloud Portal and clicking Details next to the Prometheus panel.
+
+    Your password corresponds to a Cloud Access Policy token that you can generate by clicking on Generate now in this same panel. To create a Cloud Access Policy, refer to Create a Grafana Cloud Access Policy.
+	
+
+Смотреть!!!!
+https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/configuration/configure-infrastructure-manually/prometheus/remote-write-helm-prometheus/m
+
+
+====================================
+MS-HW-4
+====================================
+** minikube addons disable ingress
+** minikube addons enable metrics-server
+** helm uninstall prometheus
+*** kubectl config set-context --current --namespace=monitoring
+*** helm install prometheus prometheus-community/prometheus -f prometheus.yaml --atomic
+
+minikube start --cpus=4 --memory=12gb --disk-size=8gb
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add stable https://charts.helm.sh/stable
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
+helm repo update
+
+kubectl create ns monitoring
+helm install prom prometheus-community/kube-prometheus-stack -f prometheus.yaml --atomic --namespace monitoring
+helm install nginx ingress-nginx/ingress-nginx -f daemon_set.yaml --atomic --namespace monitoring
+
+**** helm install prom prometheus-community/kube-prometheus-stack -f prometheus.yaml --atomic
+**** helm install nginx ingress-nginx/ingress-nginx -f daemon_set.yaml --atomic
+---- default
+helm install my-release bitnami/postgresql --set global.postgresql.auth.username=postgres --set global.postgresql.auth.password=pass --set global.postgresql.auth.database=postgres
+kubectl apply -f secret.yaml
+kubectl apply -f config_map.yaml
+kubectl apply -f role-bindings.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f nginx-ingress.yaml
+kubectl apply -f service_monitor.yaml
+---- default
+* kubectl get svc -n monitoring
+* kubectl port-forward -n monitoring service/prom-grafana  9000:80
+* http://localhost:9000/login
+* admin/prom-operator   ** from secrets
+* kubectl port-forward -n monitoring service/prom-kube-prometheus-stack-prometheus 9090:9090
+
+
+==================================
+ERRORS
+sum(increase(http_server_requests_seconds_count{job="application", status=~"4.+|5.+"}[1m])) by (method,uri)
+
+ERRORS RATE
+sum(increase(http_server_requests_seconds_count{job="application", status=~"4.+|5.+"}[1m])) / sum(increase(http_server_requests_seconds_count{job="application"}[1m]))
+
+Errors Min via rate
+sum(rate(http_server_requests_seconds_count{job="application", status=~"4.+|5.+"}[10s])) by (method,uri) * 6
+
+
+RPC
+sum(rate(http_server_requests_seconds_count{job="application"}[10s])) by (method,uri)
+
+RPC quantile
+histogram_quantile(0.95,sum(rate(http_server_requests_seconds_bucket[60s])) by (le))
+
+
+
+-------------------
+kubectl -n monitoring get secret prometheus-prom-kube-prometheus-stack-prometheus -ojson | jq -r '.data["prometheus.yaml.gz"]' | base64 -d | gunzip | grep "my-service-monitor"
+
+kubectl -n monitoring get secret prometheus-prom-kube-prometheus-stack-prometheus -ojson | jq -r '.data[\"prometheus.yaml.gz\"]' | base64 -d | gunzip
+
