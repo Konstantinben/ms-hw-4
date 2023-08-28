@@ -44,7 +44,7 @@ data:
         otus.ms: DEBUG
     spring:
       application:
-        name: ms-hw-4-inra
+        name: ms-hw-4
       autoconfigure:
         exclude[0]: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
         exclude[1]: org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration

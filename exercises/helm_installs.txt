@@ -137,41 +137,44 @@ https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitor
 ====================================
 MS-HW-4
 ====================================
+https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/
+
 ** minikube addons disable ingress
 ** minikube addons enable metrics-server
-** helm uninstall prometheus
-*** kubectl config set-context --current --namespace=monitoring
-*** helm install prometheus prometheus-community/prometheus -f prometheus.yaml --atomic
 
-minikube start --cpus=4 --memory=12gb --disk-size=8gb
+minikube start --cpus=4 --memory=12gb --disk-size=8gb  ** For Home
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add stable https://charts.helm.sh/stable
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
 helm repo update
 
-kubectl create ns monitoring
-helm install prom prometheus-community/kube-prometheus-stack -f prometheus.yaml --atomic --namespace monitoring
-helm install nginx ingress-nginx/ingress-nginx -f daemon_set.yaml --atomic --namespace monitoring
 
-**** helm install prom prometheus-community/kube-prometheus-stack -f prometheus.yaml --atomic
-**** helm install nginx ingress-nginx/ingress-nginx -f daemon_set.yaml --atomic
----- default
-helm install my-release bitnami/postgresql --set global.postgresql.auth.username=postgres --set global.postgresql.auth.password=pass --set global.postgresql.auth.database=postgres
+helm install prom prometheus-community/kube-prometheus-stack -f prometheus.yaml --atomic
+kubectl create namespace m
+helm install nginx ingress-nginx/ingress-nginx --namespace m -f daemon_set.yaml --atomic
+helm install my-release bitnami/postgresql --set global.postgresql.auth.username=postgres --set global.postgresql.auth.password=pass --set global.postgresql.auth.database=postgres --atomic
 kubectl apply -f secret.yaml
 kubectl apply -f config_map.yaml
 kubectl apply -f role-bindings.yaml
 kubectl apply -f deployment.yaml
 kubectl apply -f nginx-ingress.yaml
 kubectl apply -f service_monitor.yaml
----- default
+
+*** newman run ms-hw-4.postman.json
+
+
 * kubectl get svc -n monitoring
 * kubectl port-forward -n monitoring service/prom-grafana  9000:80
 * http://localhost:9000/login
-* admin/prom-operator   ** from secrets
-* kubectl port-forward -n monitoring service/prom-kube-prometheus-stack-prometheus 9090:9090
+* kubectl port-forward service/prom-kube-prometheus-stack-prometheus 9090:9090
+* admin/prom-operator   !! GRAFANA CREDS from secrets
+**** kubectl port-forward -n monitoring service/prom-kube-prometheus-stack-prometheus 9090:9090
 
-
+==================================
+** helm uninstall prometheus
+*** kubectl config set-context --current --namespace=monitoring
+*** helm install prometheus prometheus-community/prometheus -f prometheus.yaml --atomic
 ==================================
 ERRORS
 sum(increase(http_server_requests_seconds_count{job="application", status=~"4.+|5.+"}[1m])) by (method,uri)
@@ -196,3 +199,17 @@ kubectl -n monitoring get secret prometheus-prom-kube-prometheus-stack-prometheu
 
 kubectl -n monitoring get secret prometheus-prom-kube-prometheus-stack-prometheus -ojson | jq -r '.data[\"prometheus.yaml.gz\"]' | base64 -d | gunzip
 
+==============
+helm uninstall prom
+kubectl delete crd alertmanagerconfigs.monitoring.coreos.com
+kubectl delete crd alertmanagers.monitoring.coreos.com
+kubectl delete crd podmonitors.monitoring.coreos.com
+kubectl delete crd probes.monitoring.coreos.com
+kubectl delete crd prometheusagents.monitoring.coreos.com
+kubectl delete crd prometheuses.monitoring.coreos.com
+kubectl delete crd prometheusrules.monitoring.coreos.com
+kubectl delete crd scrapeconfigs.monitoring.coreos.com
+kubectl delete crd servicemonitors.monitoring.coreos.com
+kubectl delete crd thanosrulers.monitoring.coreos.com
+
+helm uninstall prom && kubectl delete crd alertmanagerconfigs.monitoring.coreos.com && kubectl delete crd alertmanagers.monitoring.coreos.com && kubectl delete crd podmonitors.monitoring.coreos.com && kubectl delete crd probes.monitoring.coreos.com && kubectl delete crd prometheusagents.monitoring.coreos.com && kubectl delete crd prometheuses.monitoring.coreos.com && kubectl delete crd prometheusrules.monitoring.coreos.com && kubectl delete crd scrapeconfigs.monitoring.coreos.com && kubectl delete crd servicemonitors.monitoring.coreos.com && kubectl delete crd thanosrulers.monitoring.coreos.com
