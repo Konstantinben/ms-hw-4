@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "4eb7fa49-7df4-4e92-b746-e7ca0b00f6a3",
-		"name": "ms-hw-4_local",
+		"name": "ms-hw-3_arch",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "5562917"
 	},
@@ -15,7 +15,16 @@
 						"exec": [
 							"let jsonData= pm.response.json();\r",
 							"console.log(\"accountId is \" + jsonData.accountId);\r",
-							"pm.collectionVariables.set(\"accountId\", jsonData.accountId);"
+							"pm.variables.set(\"accountId\", jsonData.accountId);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"generatedNum\", Math.floor(Math.random() * 100));"
 						],
 						"type": "text/javascript"
 					}
@@ -29,7 +38,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"username\": \"username_new2\",\r\n        \"email\": \"new2@new.ru\",\r\n        \"firstName\": \"new2\",\r\n        \"lastName\": \"new2\",\r\n        \"phone\": \"+71002003040\"\r\n}",
+					"raw": "{\r\n        \"username\": \"username_new{{generatedNum}}\",\r\n        \"email\": \"new{{generatedNum}}@new.ru\",\r\n        \"firstName\": \"new{{generatedNum}}\",\r\n        \"lastName\": \"new{{generatedNum}}\",\r\n        \"phone\": \"+71002003040\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
